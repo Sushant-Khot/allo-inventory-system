@@ -1,65 +1,83 @@
-import Image from "next/image";
+import { ProductList } from "@/components/products/ProductList";
+import { Navbar } from "@/components/shared/Navbar";
+import { Boxes, ShieldCheck, Zap } from "lucide-react";
 
 export default function Home() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
+    <>
+      <Navbar />
+      <main className="relative z-10 mx-auto w-full max-w-6xl flex-1 px-6 py-12">
+
+        {/* Hero */}
+        <section className="fade-up fade-up-1 mb-12">
+          <div className="mb-6">
+            <span
+              className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium mb-4"
+              style={{
+                background: "var(--amber-soft)",
+                border: "1px solid var(--amber-border)",
+                color: "var(--amber)",
+              }}
             >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
+              <span className="size-1.5 rounded-full inline-block" style={{ background: "var(--amber)" }} />
+              Multi-warehouse inventory platform
+            </span>
+            <h1
+              className="text-4xl sm:text-5xl font-semibold tracking-tight leading-tight mb-3"
+              style={{ fontFamily: "var(--font-sans)", color: "var(--foreground)" }}
             >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
+              Reserve before
+              <span style={{ color: "var(--amber)" }}> stock moves.</span>
+            </h1>
+            <p className="text-base max-w-lg" style={{ color: "var(--muted-foreground)", lineHeight: 1.65 }}>
+              Timed inventory holds prevent overselling during payment. Confirm when payment clears, release if it falls through — stock returns instantly.
+            </p>
+          </div>
+
+          {/* Stats row */}
+          <div className="flex flex-wrap gap-3 mt-8">
+            {[
+              { icon: Zap, label: "15-min hold window", desc: "Auto-expires if unpaid" },
+              { icon: ShieldCheck, label: "Race-condition safe", desc: "Atomic DB transactions" },
+              { icon: Boxes, label: "3 warehouses", desc: "Per-location stock levels" },
+            ].map(({ icon: Icon, label, desc }) => (
+              <div
+                key={label}
+                className="flex items-center gap-3 px-4 py-3 rounded-lg"
+                style={{
+                  background: "var(--surf-1)",
+                  border: "1px solid var(--divider)",
+                }}
+              >
+                <div
+                  className="flex items-center justify-center size-8 rounded-md flex-shrink-0"
+                  style={{ background: "var(--surf-3)" }}
+                >
+                  <Icon size={15} style={{ color: "var(--amber)" }} />
+                </div>
+                <div>
+                  <p className="text-sm font-medium" style={{ color: "var(--foreground)" }}>{label}</p>
+                  <p className="text-xs" style={{ color: "var(--muted-foreground)" }}>{desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Product grid */}
+        <section className="fade-up fade-up-2">
+          <div className="flex items-center justify-between mb-5">
+            <h2 className="text-sm font-semibold" style={{ color: "var(--foreground)" }}>
+              All Products
+            </h2>
+            <p className="text-xs" style={{ color: "var(--muted-foreground)" }}>
+              Select warehouse when reserving
+            </p>
+          </div>
+          <ProductList />
+        </section>
+
       </main>
-    </div>
+    </>
   );
 }
